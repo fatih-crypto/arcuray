@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARÇURAY — Yapay Zeka Destekli Yaban Hayatı İzleme</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --green:#00ff88;--green2:#00cc66;--red:#ff3333;
+  --dark:#050e05;--dark2:#0a1a0a;--dark3:#0f250f;
+  --text:#c8ffd4;--text2:#7fbf8a;
+}
+html{scroll-behavior:smooth}
+body{background:var(--dark);color:var(--text);font-family:'Rajdhani',sans-serif;overflow-x:hidden}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.8rem 2rem;background:rgba(5,14,5,.92);
+  backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,255,136,.15)}
+.nav-logo{font-family:'Orbitron',sans-serif;font-size:1.3rem;font-weight:900;
+  color:var(--green);letter-spacing:3px;text-decoration:none}
+.nav-logo span{color:var(--text2);font-size:.7rem;display:block;font-weight:400;letter-spacing:5px}
+.nav-links{display:flex;gap:1.5rem}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.95rem;font-weight:600;
+  letter-spacing:1px;transition:.3s;text-transform:uppercase}
+.nav-links a:hover{color:var(--green)}
+.nav-badge{background:var(--red);color:#fff;font-size:.6rem;padding:.15rem .4rem;
+  border-radius:3px;font-weight:700;letter-spacing:1px;animation:pulse 1.5s infinite}
+
+#hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;text-align:center}
+#hero-canvas{position:absolute;inset:0;width:100%;height:100%}
+.hero-content{position:relative;z-index:2;padding:2rem}
+.hero-badge{display:inline-block;border:1px solid var(--green);color:var(--green);
+  font-size:.75rem;letter-spacing:3px;padding:.4rem 1.2rem;border-radius:2px;
+  margin-bottom:1.5rem;font-family:'Orbitron',sans-serif;
+  background:rgba(0,255,136,.08)}
+.hero-title{font-family:'Orbitron',sans-serif;font-size:clamp(2rem,6vw,4.5rem);
+  font-weight:900;line-height:1.1;color:#fff;margin-bottom:.5rem}
+.hero-title span{color:var(--green);display:block}
+.hero-sub{font-size:clamp(.85rem,2vw,1.1rem);color:var(--text2);max-width:680px;
+  margin:.8rem auto 2rem;line-height:1.7;font-weight:300}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:var(--green);color:#000;padding:.9rem 2.5rem;
+  border-radius:4px;text-decoration:none;font-weight:700;font-family:'Orbitron',sans-serif;
+  font-size:.85rem;letter-spacing:2px;transition:.3s;border:none;cursor:pointer}
+.btn-primary:hover{background:var(--green2);transform:translateY(-2px);
+  box-shadow:0 8px 25px rgba(0,255,136,.4)}
+.btn-outline{border:1px solid var(--green);color:var(--green);padding:.9rem 2.5rem;
+  border-radius:4px;text-decoration:none;font-weight:700;font-family:'Orbitron',sans-serif;
+  font-size:.85rem;letter-spacing:2px;transition:.3s;background:transparent;cursor:pointer}
+.btn-outline:hover{background:rgba(0,255,136,.1)}
+
+.scroll-ind{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;color:var(--text2);font-size:.75rem}
+.scroll-line{width:1px;height:60px;background:linear-gradient(var(--green),transparent);animation:scrollDown 2s infinite}
+
+section{padding:5rem 2rem}
+.section-label{font-family:'Orbitron',sans-serif;font-size:.7rem;letter-spacing:5px;
+  color:var(--green2);text-transform:uppercase;margin-bottom:.8rem}
+.section-title{font-family:'Orbitron',sans-serif;font-size:clamp(1.5rem,4vw,2.5rem);
+  font-weight:700;color:#fff;margin-bottom:1rem}
+.section-desc{color:var(--text2);max-width:700px;line-height:1.8;font-size:1rem}
+
+#stats{background:var(--dark2);border-top:1px solid rgba(0,255,136,.1);
+  border-bottom:1px solid rgba(0,255,136,.1)}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:2rem;max-width:1100px;margin:0 auto;text-align:center}
+.stat-num{font-family:'Orbitron',sans-serif;font-size:clamp(2rem,5vw,3.5rem);
+  font-weight:900;color:var(--green);display:block}
+.stat-label{color:var(--text2);font-size:.9rem;margin-top:.3rem;letter-spacing:1px}
+
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;margin-top:3rem}
+.feature-card{background:var(--dark2);border:1px solid rgba(0,255,136,.15);
+  border-radius:8px;padding:2rem;transition:.3s;position:relative;overflow:hidden}
+.feature-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--green),transparent);opacity:0;transition:.3s}
+.feature-card:hover{border-color:rgba(0,255,136,.4);transform:translateY(-4px);
+  box-shadow:0 10px 40px rgba(0,255,136,.1)}
+.feature-card:hover::before{opacity:1}
+.feature-icon{font-size:2.5rem;margin-bottom:1rem;display:block}
+.feature-card h3{font-family:'Orbitron',sans-serif;font-size:1rem;color:#fff;
+  margin-bottom:.8rem;letter-spacing:1px}
+.feature-card p{color:var(--text2);font-size:.9rem;line-height:1.7}
+
+.cameras-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:1.5rem;margin-top:3rem}
+.cam-card{background:var(--dark);border:1px solid rgba(0,255,136,.2);border-radius:8px;
+  overflow:hidden;transition:.3s;cursor:pointer}
+.cam-card:hover{border-color:var(--green);box-shadow:0 0 30px rgba(0,255,136,.15)}
+.cam-preview{position:relative;height:160px;background:#000;overflow:hidden}
+.cam-preview canvas{width:100%;height:100%}
+.cam-status{position:absolute;top:.5rem;left:.5rem;display:flex;align-items:center;gap:.4rem;
+  font-size:.65rem;font-family:'Orbitron',sans-serif;color:var(--green);
+  background:rgba(0,0,0,.7);padding:.2rem .5rem;border-radius:2px}
+.cam-dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 1s infinite}
+.cam-id{position:absolute;top:.5rem;right:.5rem;font-size:.65rem;
+  font-family:'Orbitron',sans-serif;color:var(--text2);
+  background:rgba(0,0,0,.7);padding:.2rem .5rem;border-radius:2px}
+.cam-body{padding:1rem}
+.cam-name{font-family:'Orbitron',sans-serif;font-size:.8rem;color:#fff;
+  margin-bottom:.3rem;letter-spacing:1px}
+.cam-loc{font-size:.8rem;color:var(--text2);margin-bottom:.8rem}
+.cam-footer{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+.cam-qr div{border:2px solid rgba(0,255,136,.3);border-radius:4px;overflow:hidden}
+.btn-view{background:var(--green);color:#000;border:none;padding:.5rem 1rem;
+  border-radius:4px;font-weight:700;font-family:'Orbitron',sans-serif;
+  font-size:.7rem;letter-spacing:1px;cursor:pointer;text-decoration:none;
+  display:inline-block;transition:.3s}
+.btn-view:hover{background:var(--green2)}
+
+.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:2rem;margin-top:3rem}
+.team-card{background:var(--dark2);border:1px solid rgba(0,255,136,.15);
+  border-radius:12px;padding:2.5rem 2rem;text-align:center}
+.team-avatar{width:80px;height:80px;border-radius:50%;background:var(--dark3);
+  border:2px solid var(--green);margin:0 auto 1rem;display:flex;
+  align-items:center;justify-content:center;font-size:2rem}
+.team-name{font-family:'Orbitron',sans-serif;font-size:.9rem;color:#fff;
+  margin-bottom:.3rem;letter-spacing:1px}
+.team-desc{color:var(--text2);font-size:.85rem;line-height:1.7;margin-top:.8rem}
+
+footer{background:var(--dark2);border-top:1px solid rgba(0,255,136,.1);
+  padding:2rem;text-align:center}
+.footer-logo{font-family:'Orbitron',sans-serif;font-size:1.5rem;font-weight:900;
+  color:var(--green);letter-spacing:3px;margin-bottom:.5rem}
+footer p{color:var(--text2);font-size:.85rem}
+
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes scrollDown{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeInUp .8s ease both}
+.delay-1{animation-delay:.2s}
+.delay-2{animation-delay:.4s}
+.delay-3{animation-delay:.6s}
+
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hero-title{font-size:2rem}
+  .cameras-grid{grid-template-columns:1fr 1fr}
+  section{padding:3rem 1rem}
+}
+@media(max-width:480px){
+  .cameras-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">ARÇURAY<span>TEKNOCAK 2026</span></a>
+  <div class="nav-links">
+    <a href="#features">Sistem</a>
+    <a href="#cameras">Kameralar</a>
+    <a href="#team">Ekip</a>
+    <a href="#cameras" class="btn-outline" style="padding:.4rem 1rem;font-size:.75rem">
+      🔴 <span class="nav-badge">CANLI</span> &nbsp;İzle
+    </a>
+  </div>
+</nav>
+
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-badge fade-in">TEKNOCAK 2026 — YZ YABAN HAYATI</div>
+    <h1 class="hero-title fade-in delay-1">
+      ARÇURAY
+      <span>Yaban Hayatı Koruma</span>
+    </h1>
+    <p class="hero-sub fade-in delay-2">
+      Derin öğrenme tabanlı yapay zeka ile MOBESE kameralarından gerçek zamanlı yaban hayvanı tespiti.
+      İnsan-yaban hayatı çatışmasını önleyerek biyoçeşitliliği koruyoruz.
+    </p>
+    <div class="hero-btns fade-in delay-3">
+      <a href="#cameras" class="btn-primary">🎥 Canlı Kameralar</a>
+      <a href="#features" class="btn-outline">Sistem Hakkında</a>
+    </div>
+  </div>
+  <div class="scroll-ind">
+    <span>KEŞFET</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<section id="stats">
+  <div class="stats-grid">
+    <div class="stat-item"><span class="stat-num" data-count="97">0</span><div class="stat-label">mAP50 Doğruluk (%)</div></div>
+    <div class="stat-item"><span class="stat-num" data-count="5140">0</span><div class="stat-label">Eğitim Görseli</div></div>
+    <div class="stat-item"><span class="stat-num" data-count="60">0</span><div class="stat-label">FPS Gerçek Zamanlı</div></div>
+    <div class="stat-item"><span class="stat-num" data-count="5">0</span><div class="stat-label">Aktif MOBESE Noktası</div></div>
+    <div class="stat-item"><span class="stat-num" data-count="1142">0</span><div class="stat-label">Önlenebilir Kaza (2025)</div></div>
+  </div>
+</section>
+
+<section id="features">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="section-label">Nasıl Çalışır</div>
+    <h2 class="section-title">Yapay Zeka Altyapısı</h2>
+    <p class="section-desc">YOLOv12 mimarisi ve SAHI algoritması entegrasyonu ile MOBESE kameralarından anlık yaban hayvanı tespiti.</p>
+    <div class="features-grid">
+      <div class="feature-card"><span class="feature-icon">🧠</span><h3>YOLOv12 Tespiti</h3><p>Dikkat mekanizmaları ile eğitilmiş model, %97.74 mAP50 doğrulukla yaban hayvanlarını tanır. T4 GPU üzerinde 60 FPS gerçek zamanlı işleme.</p></div>
+      <div class="feature-card"><span class="feature-icon">🔬</span><h3>SAHI Algoritması</h3><p>Her frame 64 parçaya bölünür. Küçük ve uzak hayvanları kaçırmaz. Standart algoritmalara göre %30 daha yüksek tespit başarısı.</p></div>
+      <div class="feature-card"><span class="feature-icon">📡</span><h3>MOBESE Entegrasyonu</h3><p>Mevcut altyapıya eklenti olarak çalışır. Kavşak ve otoyol kameralarından canlı görüntü analizi. Sürücülere anlık uyarı sistemi.</p></div>
+      <div class="feature-card"><span class="feature-icon">🌐</span><h3>Sentetik Veri Üretimi</h3><p>GROK (XAi) yapay zekası ile image-to-image yöntemi. Nadir türler için %40 daha fazla veri varyasyonu. Sınıf dengesizliği çözümü.</p></div>
+      <div class="feature-card"><span class="feature-icon">🦅</span><h3>10+ Tür Tespiti</h3><p>Dağ keçisi, kurt, tilki, yaban domuzu, kartal, şahin, baykuş ve daha fazlası. Aladağlar Milli Parkı türleri öncelikli eğitim.</p></div>
+      <div class="feature-card"><span class="feature-icon">🛡️</span><h3>Trafik Güvenliği</h3><p>Hayvan tespitinde sürücülere ve ilgili birimlere anında bildirim. EGM ile entegrasyon için hazır altyapı. Can ve hayvan kayıplarını önler.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="cameras" style="padding:5rem 2rem;background:var(--dark2)">
+  <div style="max-width:1300px;margin:0 auto">
+    <div class="section-label">Canlı İzleme</div>
+    <h2 class="section-title">MOBESE Kamera Noktaları</h2>
+    <p class="section-desc">QR kodu okutarak ilgili kamera noktasını mobil cihazınızdan canlı izleyin. Tespit Et butonuna basın!</p>
+    <div class="cameras-grid" id="cam-grid"></div>
+  </div>
+</section>
+
+<section style="padding:5rem 2rem;background:var(--dark)">
+  <div style="max-width:900px;margin:0 auto;text-align:center">
+    <div class="section-label">Ekibimiz</div>
+    <h2 class="section-title">Arçuray Takımı</h2>
+    <p class="section-desc">Ülkü Ocakları Kayseri İl Başkanlığı Ar-Ge birimi bünyesinde faaliyet yürüten multidisipliner takım.</p>
+    <div class="team-grid">
+      <div class="team-card"><div class="team-avatar">🔬</div><div class="team-name">Dr. Öğr. Üyesi<br>Emre TÜFEKÇİ</div><div style="color:var(--green2);margin-top:.3rem;font-size:.8rem">Proje Yürütücüsü</div><p class="team-desc">Erciyes Üniversitesi Veteriner Fakültesi Yabani Hayvan Hastalıkları Anabilim Dalı öğretim üyesi. Yaban hayvan hastalıklarının teşhis ve tedavisi üzerine uzman.</p></div>
+      <div class="team-card"><div class="team-avatar">🤖</div><div class="team-name">Fatih İsmail<br>BAHAR</div><div style="color:var(--green2);margin-top:.3rem;font-size:.8rem">YZ Geliştiricisi</div><p class="team-desc">7 yıllık yapay zeka deneyimi. XAi firmasında yapay zeka geliştiricisi. Teknofest Sağlıkta Yapay Zeka Yarışması Türkiye 5.cisi.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">ARÇURAY</div>
+  <p style="margin-bottom:.3rem">Türk mitolojisinde ana orman iyesi — ormandaki hayvanları ve ağaçları korur.</p>
+  <p>TEKNOCAK 2026 • Ülkü Ocakları Kayseri İl Başkanlığı Ar-Ge Birimi</p>
+</footer>
+
+<script>
+const heroCanvas=document.getElementById('hero-canvas');
+const hctx=heroCanvas.getContext('2d');
+let hw,hh,particles=[],animals=[];
+function resizeHero(){hw=heroCanvas.width=heroCanvas.offsetWidth;hh=heroCanvas.height=heroCanvas.offsetHeight;}
+resizeHero();window.addEventListener('resize',resizeHero);
+for(let i=0;i<120;i++)particles.push({x:Math.random()*2000,y:Math.random()*1000,r:Math.random()*1.5+.3,s:Math.random()*.3+.1,o:Math.random()*.6+.2});
+function drawDeerAt(ctx,x,y,scale,alpha){ctx.save();ctx.globalAlpha=alpha;ctx.strokeStyle='#00ff88';ctx.lineWidth=1.5;ctx.translate(x,y);ctx.scale(scale,scale);ctx.beginPath();ctx.ellipse(0,0,18,10,0,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.arc(20,-8,6,0,Math.PI*2);ctx.stroke();for(let lx of[-10,-4,4,10]){ctx.beginPath();ctx.moveTo(lx,9);ctx.lineTo(lx+2,22);ctx.stroke();}ctx.beginPath();ctx.moveTo(18,-13);ctx.lineTo(14,-22);ctx.lineTo(12,-18);ctx.moveTo(14,-22);ctx.lineTo(17,-25);ctx.stroke();ctx.beginPath();ctx.moveTo(22,-13);ctx.lineTo(26,-22);ctx.lineTo(24,-18);ctx.moveTo(26,-22);ctx.lineTo(27,-26);ctx.stroke();ctx.restore();}
+for(let i=0;i<4;i++)animals.push({x:Math.random()*2000-200,y:0,s:Math.random()*.5+.4,spd:Math.random()*.3+.15,o:Math.random()*.25+.08});
+let heroT=0;
+function animateHero(){heroT++;hctx.clearRect(0,0,hw,hh);const g=hctx.createLinearGradient(0,0,0,hh);g.addColorStop(0,'#020a02');g.addColorStop(.5,'#050e05');g.addColorStop(1,'#030803');hctx.fillStyle=g;hctx.fillRect(0,0,hw,hh);hctx.strokeStyle='rgba(0,255,136,.04)';hctx.lineWidth=1;for(let x=0;x<hw;x+=80){hctx.beginPath();hctx.moveTo(x,0);hctx.lineTo(x,hh);hctx.stroke()}for(let y=0;y<hh;y+=80){hctx.beginPath();hctx.moveTo(0,y);hctx.lineTo(hw,y);hctx.stroke()}particles.forEach(p=>{p.x-=p.s;if(p.x<-5)p.x=hw+5;hctx.beginPath();hctx.arc(p.x,p.y,p.r,0,Math.PI*2);hctx.fillStyle=`rgba(0,255,136,${p.o*(Math.sin(heroT*.02+p.x)*.3+.7)})`;hctx.fill();});const scanY=(heroT*1.5)%(hh+100)-50;const sg=hctx.createLinearGradient(0,scanY-30,0,scanY+30);sg.addColorStop(0,'transparent');sg.addColorStop(.5,'rgba(0,255,136,.06)');sg.addColorStop(1,'transparent');hctx.fillStyle=sg;hctx.fillRect(0,scanY-30,hw,60);animals.forEach(a=>{a.y=hh*.5+Math.sin(a.x*.01)*80;drawDeerAt(hctx,a.x%(hw+300),a.y,a.s,a.o);a.x+=a.spd;});const vg=hctx.createRadialGradient(hw/2,hh/2,hh*.1,hw/2,hh/2,hh*.8);vg.addColorStop(0,'transparent');vg.addColorStop(1,'rgba(2,8,2,.7)');hctx.fillStyle=vg;hctx.fillRect(0,0,hw,hh);requestAnimationFrame(animateHero);}
+animateHero();
+
+function animateCount(el){const target=parseInt(el.dataset.count);const dur=2000,start=performance.now();function step(now){const p=Math.min((now-start)/dur,1);const ease=1-Math.pow(1-p,3);el.textContent=Math.floor(ease*target).toLocaleString('tr');if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);}
+const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('[data-count]').forEach(animateCount);observer.unobserve(e.target);}});},{threshold:.3});
+observer.observe(document.getElementById('stats'));
+
+const BASE='https://fatih-crypto.github.io/arcuray/';
+const cams=[
+  {id:'01',name:'KCO POYRAZ',loc:'İstanbul Boğazı Kuzeyi',file:'kamera1.html',animal:'Tilki'},
+  {id:'02',name:'KAVACIK GİRİŞİ',loc:'Kavacık, İstanbul',file:'kamera2.html',animal:'Yaban Domuzu'},
+  {id:'03',name:'REŞADİYE KAVŞAĞI',loc:'Reşadiye, Trabzon',file:'kamera3.html',animal:'Kurt'},
+  {id:'04',name:'RİVA TÜNELİ GÜNEY',loc:'Riva, Kocaeli',file:'kamera4.html',animal:'Dağ Keçisi'},
+  {id:'05',name:'ANADOLU FENERİ',loc:'Anadolu Feneri, İstanbul',file:'kamera5.html',animal:'Kartal'},
+];
+const grid=document.getElementById('cam-grid');
+cams.forEach((c,i)=>{
+  const url=BASE+c.file;
+  const div=document.createElement('div');div.className='cam-card';
+  div.innerHTML=`<div class="cam-preview"><canvas id="prev-${i}" width="240" height="160"></canvas><div class="cam-status"><div class="cam-dot"></div>CANLI</div><div class="cam-id">CAM-${c.id}</div></div><div class="cam-body"><div class="cam-name">${c.name}</div><div class="cam-loc">📍 ${c.loc}</div><div class="cam-footer"><div class="cam-qr"><div id="qr-${i}"></div></div><a href="${c.file}" class="btn-view">GÖRÜNTÜLE →</a></div></div>`;
+  grid.appendChild(div);
+  new QRCode(document.getElementById(`qr-${i}`),{text:url,width:56,height:56,colorDark:'#00ff88',colorLight:'#0a1a0a',correctLevel:QRCode.CorrectLevel.M});
+  setTimeout(()=>drawMiniPreview(i),100);
+});
+function drawMiniPreview(i){const c=document.getElementById(`prev-${i}`);if(!c)return;const ctx=c.getContext('2d');const w=240,h=160;let t=0;
+function frame(){t++;ctx.fillStyle='#030803';ctx.fillRect(0,0,w,h);ctx.fillStyle='#0d0d0d';ctx.beginPath();ctx.moveTo(w/2-8,h*.45);ctx.lineTo(w/2+8,h*.45);ctx.lineTo(w*.9,h);ctx.lineTo(w*.1,h);ctx.closePath();ctx.fill();ctx.strokeStyle='rgba(255,255,100,.5)';ctx.lineWidth=1;ctx.setLineDash([8,12]);ctx.beginPath();ctx.moveTo(w/2,h*.45);ctx.lineTo(w/2,h);ctx.stroke();ctx.setLineDash([]);[[0,1],[0,.85],[0,.7],[1,1],[1,.85],[1,.7]].forEach(([side,yRatio])=>{const x=side===0?w*.05:w*.95;const y=h*yRatio;const sz=yRatio*20;ctx.fillStyle='#0a1a05';ctx.beginPath();ctx.moveTo(x,y-sz);ctx.lineTo(x-sz*.5,y);ctx.lineTo(x+sz*.5,y);ctx.fill();});if(t%2===0){for(let n=0;n<40;n++){const nx=Math.random()*w,ny=Math.random()*h;ctx.fillStyle=`rgba(0,255,136,${Math.random()*.04})`;ctx.fillRect(nx,ny,2,1);}}const sy=(t*1.2)%(h+20)-10;const sg=ctx.createLinearGradient(0,sy-8,0,sy+8);sg.addColorStop(0,'transparent');sg.addColorStop(.5,'rgba(0,255,136,.1)');sg.addColorStop(1,'transparent');ctx.fillStyle=sg;ctx.fillRect(0,sy-8,w,16);ctx.fillStyle='rgba(0,40,10,.25)';ctx.fillRect(0,0,w,h);const now=new Date();ctx.fillStyle='rgba(0,255,136,.8)';ctx.font='7px monospace';ctx.fillText(now.toLocaleTimeString('tr'),4,h-4);requestAnimationFrame(frame);}frame();}
+</script>
+</body>
+</html>

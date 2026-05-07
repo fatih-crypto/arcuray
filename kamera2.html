@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARÇURAY — CAM-02 KAVACIK GİRİŞİ</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="camera-shared.css">
+</head>
+<body>
+<div class="top-bar">
+  <div class="top-left"><a class="top-logo" href="index.html">ARÇURAY</a><div class="cam-id-badge">CAM-02</div></div>
+  <div class="top-center"><div class="cam-name-title">KAVACIK GİRİŞİ</div><div class="cam-location">📍 Kavacık Köprüsü Girişi — D-100 Bağlantısı</div></div>
+  <div class="top-right"><div><div class="live-badge"><div class="live-dot"></div>CANLI</div><div id="cam-clock">--:--:--</div></div><div id="status-text">SİSTEM AKTİF</div></div>
+</div>
+<div id="alert-bar"><span class="alert-icon">⚠️</span><div class="alert-text">YABAN HAYVANI TESPİT EDİLDİ — YABAN DOMUZU — KAVACIK GİRİŞİ</div><span class="alert-icon">⚠️</span></div>
+<div class="canvas-stats"><div class="stat-chip">MODEL <span>YOLOv12</span></div><div class="stat-chip">FPS <span>60</span></div><div class="stat-chip">mAP50 <span>97.7%</span></div><div class="stat-chip">SAHI <span>AKTİF</span></div></div>
+<div class="canvas-wrap"><canvas id="cam-canvas"></canvas></div>
+<div class="bottom-bar">
+  <div class="bottom-info">
+    <div class="info-item"><span class="info-label">KONUM</span><span class="info-val">41°04'N 29°08'E</span></div>
+    <div class="info-item"><span class="info-label">YÜKSEKLİK</span><span class="info-val">52m</span></div>
+    <div class="info-item"><span class="info-label">GÖRÜŞ</span><span class="info-val">185°</span></div>
+    <div class="info-item"><span class="info-label">ÇÖZÜNÜRLÜK</span><span class="info-val">1920×1080</span></div>
+  </div>
+  <div class="bottom-actions"><a href="index.html" class="back-btn">← GERİ</a><button id="det-btn" onclick="triggerDetection()">🔍 TESPİT ET</button></div>
+</div>
+<div id="video-overlay">
+  <div class="video-box">
+    <div class="video-header"><div class="video-header-title">⚠️ YABAN HAYVANI TESPİT VİDEOSU — YABAN DOMUZU (Sus scrofa)</div><button class="close-video-btn" onclick="closeVideo()">✕ KAPAT</button></div>
+    <div class="video-placeholder"><div class="vp-icon">🐗</div><h3>YABAN DOMUZU TESPİT EDİLDİ</h3><p>Sus scrofa — Kavacık Girişi<br>Video: <em style="color:var(--green)">video/yaban_domuzu.mp4</em></p></div>
+  </div>
+  <div class="video-detection-info">
+    <div class="det-info-item"><span class="dii-val">YABAN DOMUZU</span><span class="dii-label">Tespit Türü</span></div>
+    <div class="det-info-item"><span class="dii-val">91.3%</span><span class="dii-label">Güven Skoru</span></div>
+    <div class="det-info-item"><span class="dii-val">KAVACIK GİRİŞİ</span><span class="dii-label">Kamera Noktası</span></div>
+    <div class="det-info-item"><span class="dii-val" id="det-time">--:--:--</span><span class="dii-label">Tespit Zamanı</span></div>
+  </div>
+</div>
+<script>const CAMERA_CFG={animal:'boar',animalLabel:'YABAN DOMUZU',confidence:91};document.getElementById('det-time').textContent=new Date().toLocaleTimeString('tr-TR');</script>
+<script src="camera-shared.js"></script>
+</body>
+</html>
