@@ -1,184 +1,27 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arcuray - Canlı Kamera İzleme</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e2937 100%);
-            color: #e2e8f0;
-            min-height: 100vh;
-        }
-        header {
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(10px);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid #334155;
-        }
-        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
-        h1 {
-            font-size: 2.8rem;
-            text-align: center;
-            margin-bottom: 10px;
-            background: linear-gradient(90deg, #60a5fa, #a78bfa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .subtitle { text-align: center; color: #94a3b8; margin-bottom: 40px; }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
-            gap: 24px;
-        }
-        .camera-card {
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid #475569;
-            transition: all 0.3s ease;
-        }
-        .camera-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.3);
-            border-color: #60a5fa;
-        }
-        .camera-header {
-            padding: 16px 20px;
-            background: #1e2937;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .camera-name {
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-        .status {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.85rem;
-        }
-        .live-dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background: #22c55e;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-        .preview {
-            height: 260px;
-            background: #0f172a;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            color: #64748b;
-            position: relative;
-        }
-        .preview::after {
-            content: '📹 Canlı Görüntü';
-            position: absolute;
-            bottom: 20px;
-            font-size: 0.95rem;
-        }
-        .actions {
-            padding: 16px 20px;
-            display: flex;
-            gap: 12px;
-        }
-        button {
-            flex: 1;
-            padding: 12px;
-            background: #3b82f6;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        button:hover {
-            background: #2563eb;
-            transform: scale(1.03);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yakında</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: #000;
+    }
+    p {
+      color: #fff;
+      font-family: sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.1em;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>🔴 ARCÜRAY</h1>
-            <p class="subtitle">Canlı Kamera Sistemi • 5 Kamera</p>
-        </div>
-    </header>
-
-    <div class="container">
-        <div class="grid">
-            <!-- Kamera 1 -->
-            <div class="camera-card">
-                <div class="camera-header">
-                    <div class="camera-name">CAM-01 KCO POYRAZ</div>
-                    <div class="status"><span class="live-dot"></span> CANLI</div>
-                </div>
-                <div class="preview">Kamera Önizleme Alanı</div>
-                <div class="actions">
-                    <button onclick="window.open('kamera1.html', '_blank')">📺 Tam Ekran İzle</button>
-                </div>
-            </div>
-
-            <!-- Diğer kameralar aynı şekilde -->
-            <div class="camera-card">
-                <div class="camera-header">
-                    <div class="camera-name">CAM-02 KAVACIK GİRİŞİ</div>
-                    <div class="status"><span class="live-dot"></span> CANLI</div>
-                </div>
-                <div class="preview">Kamera Önizleme Alanı</div>
-                <div class="actions">
-                    <button onclick="window.open('kamera2.html', '_blank')">📺 Tam Ekran İzle</button>
-                </div>
-            </div>
-
-            <div class="camera-card">
-                <div class="camera-header">
-                    <div class="camera-name">CAM-03 REŞADİYE KAVŞAĞI</div>
-                    <div class="status"><span class="live-dot"></span> CANLI</div>
-                </div>
-                <div class="preview">Kamera Önizleme Alanı</div>
-                <div class="actions">
-                    <button onclick="window.open('kamera3.html', '_blank')">📺 Tam Ekran İzle</button>
-                </div>
-            </div>
-
-            <div class="camera-card">
-                <div class="camera-header">
-                    <div class="camera-name">CAM-04 RİVA TÜNELİ GÜNEY</div>
-                    <div class="status"><span class="live-dot"></span> CANLI</div>
-                </div>
-                <div class="preview">Kamera Önizleme Alanı</div>
-                <div class="actions">
-                    <button onclick="window.open('kamera4.html', '_blank')">📺 Tam Ekran İzle</button>
-                </div>
-            </div>
-
-            <div class="camera-card">
-                <div class="camera-header">
-                    <div class="camera-name">CAM-05 ANADOLU FENERİ ÜST GEÇİT</div>
-                    <div class="status"><span class="live-dot"></span> CANLI</div>
-                </div>
-                <div class="preview">Kamera Önizleme Alanı</div>
-                <div class="actions">
-                    <button onclick="window.open('kamera5.html', '_blank')">📺 Tam Ekran İzle</button>
-                </div>
-            </div>
-        </div>
-    </div>
+  <p>Yakında Eklenecek</p>
 </body>
 </html>
