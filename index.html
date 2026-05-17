@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Synthetic Generator — Prototip</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="brand">SYNTHETIC&nbsp;GENERATOR · PROTOTİP</div>
+</header>
+
+<main>
+<section class="panel" id="tab-proto">
+
+  <!-- ------- 1) GÖRSEL ------- -->
+  <div class="proto-section">
+    <div class="proto-section-header">
+      <div class="proto-section-num">01</div>
+      <div>
+        <div class="proto-section-title">Görsel</div>
+        <div class="proto-section-sub">Hayvan + mevsim seç → sentetik görsel</div>
+      </div>
+    </div>
+
+    <div class="proto-controls">
+      <div class="seg" id="proto-img-animal">
+        <button class="seg-btn active" data-animal="kurt">Kurt</button>
+        <button class="seg-btn" data-animal="dag_kecisi">Dağ keçisi</button>
+      </div>
+      <div class="seg" id="proto-img-season">
+        <button class="seg-btn active" data-season="yaz">☀ Yaz</button>
+        <button class="seg-btn" data-season="kis">❄ Kış</button>
+      </div>
+    </div>
+
+    <div class="proto-img-wrap">
+      <img id="proto-img" alt="">
+      <div class="proto-img-meta" id="proto-img-meta">—</div>
+    </div>
+  </div>
+
+  <!-- ------- 2) MOBESE ------- -->
+  <div class="proto-section">
+    <div class="proto-section-header">
+      <div class="proto-section-num">02</div>
+      <div>
+        <div class="proto-section-title">Mobese</div>
+        <div class="proto-section-sub">Canlı görüntü → Oynat'a basınca tespit (bbox + uyarı)</div>
+      </div>
+    </div>
+
+    <div class="proto-controls">
+      <div class="seg" id="proto-vid-animal">
+        <button class="seg-btn active" data-vanimal="kurt">Kurt</button>
+        <button class="seg-btn" data-vanimal="tilki">Tilki</button>
+      </div>
+      <div class="seg">
+        <button class="seg-btn" id="proto-vid-play">▶ Oynat</button>
+        <button class="seg-btn" id="proto-vid-pause">‖ Duraklat</button>
+        <button class="seg-btn" id="proto-vid-restart">⟲ Baştan</button>
+      </div>
+      <div class="seg">
+        <button class="seg-btn" id="proto-vid-fullscreen">⛶ Tam ekran</button>
+      </div>
+    </div>
+
+    <div class="cctv-wrap">
+      <div class="cctv-screen">
+        <video id="cctv-live" autoplay muted loop playsinline></video>
+        <canvas id="cctv-canvas" class="hidden"></canvas>
+
+        <div class="cctv-hud-top">
+          <div class="cctv-hud-left">
+            <span class="cctv-rec"></span> REC
+            <span class="cctv-time" id="cctv-time">00:00:00</span>
+          </div>
+          <div class="cctv-hud-right">
+            CAM-01 · <span id="cctv-frame-label">CANLI</span>
+          </div>
+        </div>
+
+        <div class="cctv-bigalert hidden" id="cctv-alert">
+          <div class="cctv-bigalert-icon">!</div>
+          <div class="cctv-bigalert-text">KADRAJDA HAYVAN TESPİT EDİLDİ</div>
+          <button class="cctv-bigalert-close" id="cctv-alert-close" title="Kapat">×</button>
+        </div>
+
+        <div class="cctv-timeline">
+          <div id="cctv-timeline-bar"></div>
+          <div class="cctv-timeline-label" id="cctv-timeline-label">0 / 0</div>
+        </div>
+      </div>
+
+      <div class="cctv-side">
+        <div class="cctv-side-block">
+          <div class="cctv-side-label">DURUM</div>
+          <div class="cctv-side-value" id="cctv-status">hazır</div>
+        </div>
+        <div class="cctv-side-block">
+          <div class="cctv-side-label">TESPİT</div>
+          <div class="cctv-side-value" id="cctv-detection">—</div>
+        </div>
+        <div class="cctv-side-block">
+          <div class="cctv-side-label">GÜVEN</div>
+          <div class="cctv-side-value" id="cctv-conf">—</div>
+        </div>
+        <div class="cctv-side-block cctv-roi-block">
+          <div class="cctv-side-label">ROI · ZOOM</div>
+          <div class="cctv-roi-wrap">
+            <canvas id="cctv-roi"></canvas>
+            <div class="cctv-roi-empty" id="cctv-roi-empty">tespit yok</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
